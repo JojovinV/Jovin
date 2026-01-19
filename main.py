@@ -2,93 +2,38 @@ import pygame
 import random
 import sys
 
-pygame.init()
+# Data kuda Uma Musume
+uma_musume = {
+    "Special Week": {
+        "sejarah": "Special Week adalah salah satu kuda legendaris di Uma Musume. Dia dikenal sebagai 'Empress' dan memiliki kemampuan luar biasa dalam balapan.",
+        "rekor": "Memenangkan Triple Crown (Satsuki Sho, Tokyo Yushun, Kikuka Sho) dan berbagai kompetisi internasional lainnya."
+    },
+    "Silence Suzuka": {
+        "sejarah": "Silence Suzuka adalah rival utama Special Week. Dia dikenal dengan kecepatannya yang luar biasa dan semangat juang yang tinggi.",
+        "rekor": "Pemenang Japanese Derby, Tenno Sho, dan berbagai acara balapan elit."
+    },
+    "Gold Ship": {
+        "sejarah": "Gold Ship adalah kuda jantan yang kuat dan tegas. Dia sering membantu teman-temannya dan dikenal dengan kekuatannya yang luar biasa.",
+        "rekor": "Memenangkan Arima Kinen, Takarazuka Kinen, dan kompetisi lainnya dengan dominasi."
+    },
+    "Seiun Sky": {
+        "sejarah": "Seiun Sky adalah kuda yang elegan dan misterius. Dia memiliki kemampuan untuk melihat masa depan dan sering memberikan nasihat.",
+        "rekor": "Pemenang Hopeful Stakes dan berbagai balapan dengan catatan waktu yang impresif."
+    },
+    "King Halo": {
+        "sejarah": "King Halo adalah kuda jantan yang bijak dan pemimpin. Dia dikenal dengan kepemimpinannya di tim.",
+        "rekor": "Memenangkan Satsuki Sho dan balapan lainnya dengan strategi yang brilian."
+    }
+}
 
-screen = pygame.display.set_mode((800, 400))
-pygame.display.set_caption("Dino Game")
+print("List Kuda Uma Musume:")
+for name in uma_musume.keys():
+    print(f"- {name}")
 
-clock = pygame.time.Clock()
+nama = input("Masukkan nama kuda: ").strip()
 
-# Colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-GREEN = (0, 255, 0)
-BROWN = (139, 69, 19)
-
-# Dino
-dino_rect = pygame.Rect(50, 300, 50, 50)
-dino_vel = 0
-gravity = 1
-jump = -20
-
-# Cactus
-cactus_list = []
-cactus_speed = 5
-
-# Ground
-ground_y = 350
-
-def draw_dino():
-    pygame.draw.rect(screen, GREEN, dino_rect)
-
-def draw_cactus(cactus):
-    pygame.draw.rect(screen, BROWN, cactus)
-
-def create_cactus():
-    height = random.randint(30, 70)
-    cactus = pygame.Rect(800, ground_y - height, 30, height)
-    cactus_list.append(cactus)
-
-running = True
-score = 0
-
-while running:
-    screen.fill(WHITE)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and dino_rect.bottom >= ground_y:
-                dino_vel = jump
-
-    # Update dino
-    dino_vel += gravity
-    dino_rect.y += dino_vel
-    if dino_rect.bottom > ground_y:
-        dino_rect.bottom = ground_y
-        dino_vel = 0
-
-    # Update cactus
-    for cactus in cactus_list[:]:
-        cactus.x -= cactus_speed
-        if cactus.right < 0:
-            cactus_list.remove(cactus)
-            score += 1
-
-    # Create new cactus
-    if random.randint(1, 100) == 1:
-        create_cactus()
-
-    # Check collision
-    for cactus in cactus_list:
-        if dino_rect.colliderect(cactus):
-            running = False
-
-    # Draw
-    draw_dino()
-    for cactus in cactus_list:
-        draw_cactus(cactus)
-
-    # Draw ground
-    pygame.draw.line(screen, BLACK, (0, ground_y), (800, ground_y), 5)
-
-    # Draw score
-    font = pygame.font.SysFont(None, 36)
-    text = font.render(f"Score: {score}", True, BLACK)
-    screen.blit(text, (10, 10))
-
-    pygame.display.flip()
-    clock.tick(60)
-
-pygame.quit()
-sys.exit()
+if nama in uma_musume:
+    print(f"\nSejarah {nama}: {uma_musume[nama]['sejarah']}")
+    print(f"Rekor Kemenangan: {uma_musume[nama]['rekor']}")
+else:
+    print("Nama kuda tidak ditemukan.")
